@@ -1,0 +1,9 @@
+*.o
+
+a.out
+*.out
+*.exe
+
+*.so
+*.dll
+
