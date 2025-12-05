@@ -1,21 +1,22 @@
 mod board;
+mod snake;
+
+use snake::Snake;
+
+
 use board::Board;
 
 
+
+
 fn main() {
-    
-    let b = Board::new(4,4);
+    let size = 10;    
+    let mut b = Board::new(size, size);
     //let mut Board;
     
-    for _i in 0..b.row_size {
-        for _j in 0..b.col_size{
-            print!("{}",b.board[_i][_j]);
-            //println!("hallo");
-        }
-        println!();
-    }
+    let s = Snake::new(size, size);
 
-
+    b.draw_snake(&s);
 
     println!("Hello, world!");
 }
