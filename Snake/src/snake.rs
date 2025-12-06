@@ -27,7 +27,7 @@ impl Snake{
 
         Snake {body: body, direction: 1}
     }
-    pub fn is_move_allowed(&self, board: &Board) -> bool{
+     pub fn is_move_allowed(&self, board: &Board) -> bool{
         let rows = board.row_size;
         let cols = board.col_size;
         //let x = self.body.len() - 1;
@@ -38,7 +38,7 @@ impl Snake{
         if self.body[x].col >= cols || self.body[x].row >= rows {
             return false;
         }
-
+    
         return true;
 
     }
@@ -82,6 +82,8 @@ impl Snake{
         if board.board[new_row as usize][new_col as usize] != 'O' {
             self.body.pop();
             board.board[old_tail.row][old_tail.col] = '.';
+        } else {
+            board.add_apple(self);
         }
         
 
