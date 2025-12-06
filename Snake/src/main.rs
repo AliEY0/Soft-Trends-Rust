@@ -19,14 +19,22 @@ fn main() {
     b.draw_snake(&s);
     
     println!();
-    s.change_dir(&mut b, 3);
+    s.change_dir(&mut b, 2);
     b.draw_snake(&s);
     
     println!();
-    s.change_dir(&mut b, 4);
-    b.draw_snake(&s);
+    s.change_dir(&mut b, 2);
+    if  s.is_move_allowed(&b) == false {
+        println!("stop maar");
+    } else {
+        b.draw_snake(&s);
+    }
+
+    s.change_dir(&mut b, 2);
+    if  s.is_move_allowed(&b) == false {
+        println!("stop maar");
+    } else {
+        b.draw_snake(&s);
+    }
     
-    println!();
-    s.change_dir(&mut b, 1);
-    b.draw_snake(&s);
 }

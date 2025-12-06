@@ -27,48 +27,56 @@ impl Snake{
 
         Snake {body: body, direction: 3}
     }
+    pub fn is_move_allowed(&self, board: &Board) -> bool{
+        let rows = board.row_size;
+        let cols = board.col_size;
 
-pub fn change_dir(&mut self, board: &mut Board, key_dir: usize) {
+        if self.body[0].col < 0 || self.body[0].col >= cols {
+            return false;
+        }
+    
+        if self.body[0].row < 0 || self.body[0].row >= rows {
+            return false;
+        }
 
-    let x = self.body.len();
+        return true;
 
-    board.board[self.body[x-1].row][self.body[x-1].col] = '.';
+    }
+    pub fn change_dir(&mut self, board: &mut Board, key_dir: usize)  {
 
-    for i in (1..self.body.len()).rev() {
-        self.body[i].row = self.body[i - 1].row;
-        self.body[i].col = self.body[i - 1].col;
-    }
+        let x = self.body.len();
 
-    if self.direction == 1 && key_dir != 3 { 
-        self.direction = key_dir; 
-    }
-    if self.direction == 3 && key_dir != 1 {
-        self.direction = key_dir; 
-    }
-    if self.direction == 2 && key_dir != 4 { 
-        self.direction = key_dir; 
-    }
-    if self.direction == 4 && key_dir != 2 { 
-        self.direction = key_dir; 
-    }
+        board.board[self.body[x-1].row][self.body[x-1].col] = '.';
 
-    if self.direction == 1 {
-        self.body[0].row -= 1; 
-    }
-    if self.direction == 2 {
-        self.body[0].col += 1;
-    }
-    if self.direction == 3 {
-        self.body[0].row += 1;
-    }
-    if self.direction == 4 {
-        self.body[0].col -= 1;
-    }
+        for i in (1..self.body.len()).rev() {
+            self.body[i].row = self.body[i - 1].row;
+            self.body[i].col = self.body[i - 1].col;
+        }
 
-    for point in &self.body {
-            board.board[point.row][point.col] = '*';
+        if self.direction == 1 && key_dir != 3 { 
+            self.direction = key_dir; 
+        }
+        if self.direction == 3 && key_dir != 1 {
+            self.direction = key_dir; 
+        }
+        if self.direction == 2 && key_dir != 4 { 
+            self.direction = key_dir; 
+        }
+        if self.direction == 4 && key_dir != 2 { 
+            self.direction = key_dir; 
+        }
+
+        if self.direction == 1 {
+            self.body[0].row -= 1; 
+        }
+        if self.direction == 2 {
+            self.body[0].col += 1;
+        }
+        if self.direction == 3 {
+            self.body[0].row += 1;
+        }
+        if self.direction == 4 {
+            self.body[0].col -= 1;
         }
     }
-
-    
 }
