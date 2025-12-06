@@ -10,6 +10,7 @@ fn main() {
 
 
     b.draw_snake(&s);
+    b.add_apple(&s);
     let mut input = String::new(); 
     while input != "x" {
         input.clear();

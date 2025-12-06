@@ -1,7 +1,7 @@
 //mod snake;
 //use snake::Snake;
 use crate::snake::Snake;
-
+use rand::Rng;
 
 pub struct Board {
     pub row_size: usize,
@@ -32,10 +32,23 @@ impl Board{
             }
             println!();
         }
-        
         //Board {row_size: board.row_size, col_size: board.col_size, board: board}
-
     }
+    pub fn add_apple(&mut self, snake: &Snake) {
+
+        let mut rng = rand::thread_rng();
+
+        loop {
+            let rnd_row = rng.gen_range(0..self.row_size);
+            let rnd_col = rng.gen_range(0..self.col_size);
+
+            if self.board[rnd_row][rnd_col] == '.' {
+                self.board[rnd_row][rnd_col] = 'O';
+                break;
+            }
+        }
+    }
+
 
 
 }

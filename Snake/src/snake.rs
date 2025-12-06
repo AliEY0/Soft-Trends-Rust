@@ -1,5 +1,5 @@
 use crate::board::Board;
-
+#[derive(Clone)]
 pub struct Point {
     pub row: usize,
     pub col: usize
@@ -35,34 +35,19 @@ impl Snake{
         if self.body[x].row == 999 || self.body[x].col == 999 {
             return false;
         }
-        if self.body[x].col < 0 || self.body[x].col >= cols {
-            return false;
-        }
-    
-        if self.body[x].row < 0 || self.body[x].row >= rows {
+        if self.body[x].col >= cols || self.body[x].row >= rows {
             return false;
         }
 
         return true;
 
     }
+    pub fn eat_apple(&mut self, board: &mut Board, new_row: usize, new_col: usize){
+         let last = &self.body[self.body.len() - 1];
+        self.body.push(Point { row: last.row, col: last.col });
+    }
     pub fn change_dir(&mut self, board: &mut Board, key_dir: usize)  {
 
-        let x = self.body.len();
-
-        board.board[self.body[x-1].row][self.body[x-1].col] = '.';
-        let mut ind = self.body.len() - 1;
-
-        while ind > 0 {
-            self.body[ind].row = self.body[ind - 1].row;
-            self.body[ind].col = self.body[ind - 1].col;
-            ind = ind - 1;
-        }
-        /*for i in (1..self.body.len()).rev() {
-            self.body[i].row = self.body[i - 1].row;
-            self.body[i].col = self.body[i - 1].col;
-        }*/
-        
         if self.direction == 1 && key_dir != 3 { 
             self.direction = key_dir; 
         }
@@ -75,34 +60,30 @@ impl Snake{
         if self.direction == 4 && key_dir != 2 { 
             self.direction = key_dir; 
         }
+        let head = &self.body[0];
         let mut new_row = self.body[0].row as isize;
         let mut new_col = self.body[0].col as isize;        
         
-        if self.direction == 1 {
-            new_row -= 1;
-            //self.body[0].row -= 1; 
-        }
-        if self.direction == 2 {
-            //self.body[0].col += 1;
-            new_col += 1;
-        }
-        if self.direction == 3 {
-            //self.body[0].row += 1;
-            new_row +=1;
-        }
-        if self.direction == 4 {
-            //self.body[0].col -= 1;
-            new_col -= 1;
-        }
+        if self.direction == 1 { new_row -= 1;}
+        if self.direction == 2 { new_col += 1;}
+        if self.direction == 3 { new_row += 1;}
+        if self.direction == 4 { new_col -= 1;}
 
-
-        if new_row < 0 || new_col < 0 {
+        if new_row < 0 || new_col < 0 || new_row as usize >= board.row_size || new_col as usize >= board.col_size {
             self.body[0].row = 999;
             self.body[0].col = 999;
-        }else {
-            self.body[0].row = new_row as usize;
-            self.body[0].col = new_col as usize;
+            return;
         }
+
+        let old_tail = self.body[self.body.len() - 1].clone();
+        self.body.insert(0, Point { row: new_row as usize, col: new_col as usize });
+            
+
+        if board.board[new_row as usize][new_col as usize] != 'O' {
+            self.body.pop();
+            board.board[old_tail.row][old_tail.col] = '.';
+        }
+        
 
     }
 }
