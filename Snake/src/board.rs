@@ -20,7 +20,7 @@ impl Board{
         for point in &snake.body {
             self.board[point.row][point.col]  = '*';
         }
-
+        self.board[snake.body[0].row][snake.body[0].col] = 'X';
         /*for i in 0..snake.body.len(){
             board.board[snake.body[i].row][snake.body[i].col] = '*';
             
