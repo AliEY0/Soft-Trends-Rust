@@ -1,67 +1,38 @@
-mod board; 
-mod snake; 
-use snake::Snake; 
-use board::Board; 
-use std::io;
-fn main() { 
-    let size = 10; 
-    let mut b = Board::new(size, size); 
+mod board;
+mod snake;
+use snake::Snake;
+use board::Board;
+use console::Term;
+
+fn main() {
+    let size = 10;
+    let mut b = Board::new(size, size);
     let mut s = Snake::new(size, size);
 
+    let term = Term::stdout();
 
     b.draw_snake(&s);
     b.add_apple(&s);
-    let mut input = String::new(); 
-    while input != "x" {
-        input.clear();
-        io::stdin().read_line(&mut input).unwrap();
-        if input == "z\n" {
-            s.change_dir(&mut b, 1);
-        } else if input == "q\n" {
-            s.change_dir(&mut b, 4);
-        } else if input == "s\n" {
-            s.change_dir(&mut b, 3);
-        } else if input == "d\n" {
-            s.change_dir(&mut b, 2);
+
+    loop {
+        let key = term.read_char().unwrap();
+
+        match key {
+            'z' => s.change_dir(&mut b, 1),
+            'd' => s.change_dir(&mut b, 2),
+            's' => s.change_dir(&mut b, 3),
+            'q' => s.change_dir(&mut b, 4),
+            'x' => break, 
+            _ => {}
         }
-        if s.is_move_allowed(&b) == false {
+
+        if !s.is_move_allowed(&b) {
             println!("U heeft verloren");
-            input = "x".to_string();
             break;
-        }else {
+        } else {
             b.draw_snake(&s);
         }
+        println!();
     }
-
-    /*
-    println!();
-    s.change_dir(&mut b, 2);
-    b.draw_snake(&s);
-
-    println!();
-    s.change_dir(&mut b, 2);
-    b.draw_snake(&s);
-    
-    println!();
-    s.change_dir(&mut b, 2);
-    b.draw_snake(&s);
-    
-    println!();
-    s.change_dir(&mut b, 2);
-    if  s.is_move_allowed(&b) == false {
-        println!("stop maar");
-    } else {
-        b.draw_snake(&s);
-    }
-
-    s.change_dir(&mut b, 2);
-    if  s.is_move_allowed(&b) == false {
-        println!("stop maar");
-    } else {
-        b.draw_snake(&s);
-    }*/
-    
-
-
-
 }
+
