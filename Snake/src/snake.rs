@@ -14,8 +14,7 @@ pub struct Snake{
 }
 impl Snake{
     pub fn new(board_rows_size: usize, board_cols_size: usize) -> Snake{
-        //let _size = board_rows_size * board_cols_size;
-        let mut body : Vec<Point>   = Vec::new();      // = vec![Point; _size];
+        let mut body : Vec<Point>   = Vec::new();      
         
         let row_start = board_rows_size/2;
         let col_start = board_cols_size / 2;
@@ -45,8 +44,8 @@ impl Snake{
     pub fn is_move_allowed(&self, board: &Board) -> bool{
         let rows = board.row_size;
         let cols = board.col_size;
-        //let x = self.body.len() - 1;
         let x = 0;
+        
         if self.body[x].row == 999 || self.body[x].col == 999 {
             return false;
         }
@@ -107,7 +106,7 @@ impl Snake{
                 tel += 1;
             }
         }
-        if(tel > 1) {
+        if tel > 1 {
             self.body[0].row = 999;
             self.body[0].col = 999;
             return;

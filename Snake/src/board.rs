@@ -16,24 +16,28 @@ impl Board{
         Board {row_size: row,col_size: col, board: board}
     }
 
-    pub fn draw_snake(&mut self, snake: &Snake) { 
-        for point in &snake.body {
-            self.board[point.row][point.col]  = '*';
-        }
-        self.board[snake.body[0].row][snake.body[0].col] = 'X';
-        /*for i in 0..snake.body.len(){
-            board.board[snake.body[i].row][snake.body[i].col] = '*';
-            
-        }*/
-
-        for i in 0..self.row_size{
+    pub fn draw_snake(&mut self, snake: &Snake) {
+        for i in 0..self.row_size {
             for j in 0..self.col_size {
-                print!("{}",self.board[i][j]);                
+                if self.board[i][j] == '*' || self.board[i][j] == 'X' {
+                    self.board[i][j] = '.';
+                }
+            }
+        }
+        for point in &snake.body {
+            self.board[point.row][point.col] = '*';
+        }
+        let head = &snake.body[0];
+        self.board[head.row][head.col] = 'X';
+        for i in 0..self.row_size {
+            for j in 0..self.col_size {
+                print!("{}", self.board[i][j]);
             }
             println!();
         }
-        //Board {row_size: board.row_size, col_size: board.col_size, board: board}
     }
+
+
     pub fn add_apple(&mut self, snake: &Snake) {
 
         let mut rng = rand::thread_rng();
