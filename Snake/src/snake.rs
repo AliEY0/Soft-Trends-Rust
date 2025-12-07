@@ -27,7 +27,22 @@ impl Snake{
 
         Snake {body: body, direction: 1}
     }
-     pub fn is_move_allowed(&self, board: &Board) -> bool{
+    pub fn step_forward(&mut self) {
+        let head = &self.body[0];
+        let mut new_head = head.clone();
+
+        match self.direction {
+            1 => new_head.row -= 1,
+            2 => new_head.col += 1, 
+            3 => new_head.row += 1,
+            4 => new_head.col -= 1, 
+            _ => {}
+        }
+        self.body.insert(0, new_head);
+        self.body.pop();
+    }
+
+    pub fn is_move_allowed(&self, board: &Board) -> bool{
         let rows = board.row_size;
         let cols = board.col_size;
         //let x = self.body.len() - 1;
@@ -47,7 +62,6 @@ impl Snake{
         self.body.push(Point { row: last.row, col: last.col });
     }
     pub fn change_dir(&mut self, board: &mut Board, key_dir: usize)  {
-
         if self.direction == 1 && key_dir != 3 { 
             self.direction = key_dir; 
         }
@@ -75,6 +89,7 @@ impl Snake{
             return;
         }
 
+
         let old_tail = self.body[self.body.len() - 1].clone();
         self.body.insert(0, Point { row: new_row as usize, col: new_col as usize });
             
@@ -86,6 +101,18 @@ impl Snake{
             board.add_apple(self);
         }
         
+        let mut tel = 0;
+        for point in &self.body {
+            if point.row == self.body[0].row && point.col == self.body[0].col {
+                tel += 1;
+            }
+        }
+        if(tel > 1) {
+            self.body[0].row = 999;
+            self.body[0].col = 999;
+            return;
+        }
+
 
     }
 }
