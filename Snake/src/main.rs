@@ -13,9 +13,38 @@ use console::Term;
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
+use std::io::{self, Write};
+
+
+fn greetings(s: String) -> String{
+    let upper = s.to_uppercase();
+
+    let newstr = format!("Welkom op mijn Snake Game {}", upper); 
+    println!("{}", newstr);
+    
+    upper
+}
+
 
 fn main() {
-    let size = 10;
+    print!("Wat is je naam: ");
+    io::stdout().flush().unwrap();
+
+    let mut name = String::new(); 
+    std::io::stdin().read_line(&mut name).unwrap();
+    let nameupper = greetings(name);
+    println!("{}", nameupper);
+    
+    let enter =  format!("Druk op enter om te starten {}", nameupper);
+    println!("{}",enter);
+    
+    name.clear();
+
+    std::io::stdin().read_line(&mut name).unwrap();
+    println!("Lets Go {}", nameupper);
+
+    let size = 30;
+    let speed = 150;
     let mut b = Board::new(size, size);
     let mut s = Snake::new(size, size);
 
@@ -37,7 +66,7 @@ fn main() {
 
     let term = Term::stdout();
     loop {
-        let input = rx.recv_timeout(Duration::from_millis(200));
+        let input = rx.recv_timeout(Duration::from_millis(speed));
         match input {
             Ok(key) => {
                 match key {

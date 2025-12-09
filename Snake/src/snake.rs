@@ -26,20 +26,6 @@ impl Snake{
 
         Snake {body: body, direction: 1}
     }
-    pub fn step_forward(&mut self) {
-        let head = &self.body[0];
-        let mut new_head = head.clone();
-
-        match self.direction {
-            1 => new_head.row -= 1,
-            2 => new_head.col += 1, 
-            3 => new_head.row += 1,
-            4 => new_head.col -= 1, 
-            _ => {}
-        }
-        self.body.insert(0, new_head);
-        self.body.pop();
-    }
 
     pub fn is_move_allowed(&self, board: &Board) -> bool{
         let rows = board.row_size;
