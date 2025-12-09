@@ -16,8 +16,6 @@ fn main(){
     println!("S1 na het lenen {}", s1);
     println!("s2 = {}", s2);
 
-    let s3 = s1;
+    //let s3 = s1;
     println!("{}", s1);
-
-
 }
