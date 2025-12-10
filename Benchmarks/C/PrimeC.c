@@ -18,25 +18,30 @@ bool isPrime(int n){
     return true;
 }
 
-
-int main() {
-
+void checkPrime(int n){
     clock_t begin = clock();
     int totaal = 1;
-    const int N = 20000000;
-    printf("Aantal priemgetallen onder %d\n", N);
-    for(int i = 0; i <= N; i++){
+    printf("Aantal priemgetallen onder %d\n", n);
+    for(int i = 0; i <= n; i++){
         if(isPrime(i)){
             //printf(" is een priem getal\n");
             totaal++;
         }
     }
 
-    printf("Er zijn %d priemgetallen onder %d\n", totaal, N);
-    printf("\n");
+    printf("Er zijn %d priemgetallen onder %d\n", totaal, n);
     clock_t end = clock();
     double time_spent = (double)(end - begin)  / CLOCKS_PER_SEC;
     printf("Totale tijd gespendeerd is: %f\n", time_spent);
+    printf("\n");
+}
+
+int main() {
+    checkPrime(10);
+    checkPrime(100);
+    checkPrime(10000000);
+    checkPrime(20000000);
+
     return 0;
 }
 
